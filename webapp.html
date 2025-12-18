@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>FNaAS</title>
+
+<!-- Bootstrap CSS (required for navbar styling) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome (optional, for the hamburger icon in your snippet) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#07010f;
+  --panel:#0c0220;
+  --ink:#f4f4ff;
+  --muted:rgba(244,244,255,.75);
+  --red:#ff365f;
+  --purple:#7a3cff;
+  --gold:#f6c453;
+  --spring:#7dff6a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;
+  background: radial-gradient(circle at top, #1a0035, var(--bg) 55%) fixed;
+  color:var(--ink);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+
+/* Navbar tweaks so it matches the dark vibe */
+#mainNav{
+  background: rgba(10, 0, 25, 0.75);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+#mainNav .navbar-brand,
+#mainNav .nav-link,
+#mainNav .navbar-toggler{
+  color: rgba(244,244,255,.92) !important;
+}
+#mainNav .nav-link:hover{
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255,54,95,.35);
+}
+#mainNav .navbar-toggler{
+  border-color: rgba(255,255,255,.25);
+}
+#mainNav .navbar-toggler:focus{
+  box-shadow: 0 0 0 .2rem rgba(122,60,255,.25);
+}
+
+/* Page layout */
+.page{
+  min-height: calc(100vh - 70px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding: 18px 0 30px;
+}
+.wrap{
+  width:min(640px,96vw);
+  background: radial-gradient(circle at top, #1b0033, var(--panel) 70%);
+  border-radius:24px;
+  padding:16px;
+  box-shadow:0 20px 60px rgba(0,0,0,.85);
+  border: 1px solid rgba(255,255,255,.08);
+}
+header{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:10px;
+  flex-wrap:wrap;
+}
+.title{
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  background:linear-gradient(90deg,var(--red),var(--gold),var(--purple));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.sub{font-size:.8rem;color:var(--muted)}
+.hud{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.pill{
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:.72rem;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.05);
+  white-space:nowrap;
+}
+
+.shell{
+  position:relative;
+  border-radius:16px;
+  overflow:hidden;
+  border:2px solid rgba(255,255,255,.1);
+}
+canvas{display:block;width:100%;height:auto}
+
+.overlay{
+  position:absolute;inset:0;
+  background:radial-gradient(circle,rgba(0,0,0,.65),rgba(0,0,0,.95));
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding: 0 18px;
+}
+.overlay.hidden{display:none}
+.oTitle{
+  font-size:1.7rem;
+  font-weight:900;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  background:linear-gradient(120deg,var(--red),var(--gold),var(--purple));
+  -webkit-background-clip:text;
+  color:transparent;
+  margin-bottom:10px;
+}
+.oSub{white-space:pre-line;font-size:.95rem;margin-bottom:16px;max-width:52ch}
+.btnGame{
+  padding:10px 22px;
+  border-radius:999px;
+  border:none;
+  font-weight:900;
+  letter-spacing:.12em;
+  background:linear-gradient(120deg,var(--gold),var(--red));
+  cursor:pointer;
+}
+.note{
+  margin-top:10px;
+  font-size:.72rem;
+  opacity:.75;
+  text-align:right;
+}
+.note b{color:var(--purple)}
+</style>
+</head>
+
+<body>
+
+<!-- ✅ Your navbar code (kept the same structure; just changed the brand text optionally) -->
+<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+  <div class="container px-4 px-lg-5">
+    <a class="navbar-brand" href="index.html">@phoebelbooth</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto py-4 py-lg-0">
+        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.html">Resume</a></li>
+        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="scratch.html">Scratch</a></li>
+        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="webapp.html"> Game</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="title">Five Nights as a Snake</div>
+        <div class="sub">Night Snake • Survive 12AM–6AM • Beat Night 5 </div>
+      </div>
+      <div class="hud">
+        <div class="pill" id="nightPill">Night 1 • Freddy</div>
+        <div class="pill" id="timePill">12:00 AM</div>
+        <div class="pill">Speed <b id="speedPill">1.0x</b></div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <canvas id="c" width="600" height="600"></canvas>
+
+      <div class="overlay" id="overlay">
+        <div class="oTitle" id="oTitle">Night Snake</div>
+        <div class="oSub" id="oSub"></div>
+        <button class="btnGame" id="mainBtn">Start</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS bundle (required for navbar collapse/hamburger) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+(() => {
+"use strict";
+
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+const W = canvas.width, H = canvas.height;
+
+const overlay = document.getElementById("overlay");
+const oTitle = document.getElementById("oTitle");
+const oSub = document.getElementById("oSub");
+const mainBtn = document.getElementById("mainBtn");
+
+const nightPill = document.getElementById("nightPill");
+const timePill = document.getElementById("timePill");
+const speedPill = document.getElementById("speedPill");
+
+const nights = [
+  {name:"Freddy",     head:"#e29a43", body:"#7b461b", glow:"rgba(255,80,80,.6)",  bg0:"#160028"},
+  {name:"Bonnie",     head:"#7a67ff", body:"#3b2fd8", glow:"rgba(140,120,255,.6)",bg0:"#120037"},
+  {name:"Chica",      head:"#ffd35a", body:"#d2a81e", glow:"rgba(255,210,90,.6)", bg0:"#261700"},
+  {name:"Foxy",       head:"#ff6a6a", body:"#c23a3a", glow:"rgba(255,90,90,.6)",  bg0:"#2a0012"},
+  {name:"Golden",     head:"#ffe08b", body:"#caa14a", glow:"rgba(255,230,160,.7)",bg0:"#241800"},
+  {name:"Springtrap", head:"#7dff6a", body:"#2f6b2c", glow:"rgba(150,255,120,.85)",bg0:"#071a09"}
+];
+
+const grid = 24;
+const cell = Math.floor(W / grid);
+const NIGHT_SECONDS = 60;
+const BASE_TPS = 7;
+const TPS_PER_NIGHT = 1.6;
+const SECRET_TPS_BONUS = 2.0;
+
+let state="intro", betweenMode="start";
+let nightIndex=0, nightTimer=0;
+let tps=BASE_TPS, tickAccum=0;
+let snake=[], dir={x:1,y:0}, nextDir={x:1,y:0};
+let food={x:5,y:5};
+
+let secretUnlocked = (localStorage.getItem("fnafNightSnakeSecretUnlocked") === "1");
+
+function showOverlay(t,s,b){
+  overlay.classList.remove("hidden");
+  oTitle.textContent=t;
+  oSub.textContent=s;
+  mainBtn.textContent=b;
+}
+function hideOverlay(){overlay.classList.add("hidden")}
+
+function timeLabel(){
+  const h=Math.min(6,Math.floor(nightTimer/(NIGHT_SECONDS/6)));
+  return ["12:00 AM","1:00 AM","2:00 AM","3:00 AM","4:00 AM","5:00 AM","6:00 AM"][h];
+}
+
+function computeTpsForNight(idx){
+  let v = BASE_TPS + TPS_PER_NIGHT*idx;
+  if (idx===5) v += SECRET_TPS_BONUS;
+  return v;
+}
+
+function resetNight(){
+  tps = computeTpsForNight(nightIndex);
+  nightTimer=0; tickAccum=0;
+  const c=Math.floor(grid/2);
+  snake=[{x:c,y:c},{x:c-1,y:c},{x:c-2,y:c}];
+  dir={x:1,y:0}; nextDir={x:1,y:0};
+  placeFood();
+}
+
+function placeFood(){
+  for (let tries=0; tries<2000; tries++){
+    const p = {x:Math.floor(Math.random()*grid), y:Math.floor(Math.random()*grid)};
+    if (!snake.some(s => s.x===p.x && s.y===p.y)){ food = p; return; }
+  }
+  food = {x:1,y:1};
+}
+
+function startGame(){
+  nightIndex=0;
+  resetNight();
+  state="between"; betweenMode="start";
+  showOverlay("Night 1","You are Freddy.\nSurvive until 6:00 AM.","Begin");
+}
+
+function unlockSecret(){
+  secretUnlocked = true;
+  localStorage.setItem("fnafNightSnakeSecretUnlocked","1");
+}
+
+function nextNight(){
+  if (nightIndex < 4){
+    nightIndex++;
+  } else if (nightIndex === 4){
+    // after Night 5, go to secret if unlocked, otherwise back to 1
+    nightIndex = secretUnlocked ? 5 : 0;
+  } else {
+    // after secret, restart
+    startGame(); return;
+  }
+
+  resetNight();
+  state="between"; betweenMode="start";
+
+  const title = (nightIndex===5) ? "Night 6" : `Night ${nightIndex+1}`;
+  const who = nights[nightIndex].name;
+  const extra = (nightIndex===5)
+    ? "\nCUSTOM NIGHT: Springtrap.\nStatic is heavy. Speed is brutal."
+    : "";
+
+  showOverlay(title, `You are ${who}.\nMake it to 6:00 AM.${extra}`, "Begin");
+}
+
+function completeNight(){
+  state="between"; betweenMode="complete";
+
+  if (nightIndex === 4){
+    unlockSecret();
+    showOverlay("6:00 AM","Night 5 complete.\n⚠️ SECRET NIGHT UNLOCKED: Springtrap.","Next Night");
+    return;
+  }
+  if (nightIndex === 5){
+    showOverlay("6:00 AM","Custom Night complete.\nYou survived everything.","Restart");
+    return;
+  }
+  showOverlay("6:00 AM",`Night ${nightIndex+1} complete.\nNext night is faster.`,"Next Night");
+}
+
+function confirmOverlay(){
+  if (state==="intro"){ startGame(); return; }
+  if (state==="between"){
+    if (betweenMode==="complete") nextNight();
+    else { state="playing"; hideOverlay(); }
+    return;
+  }
+}
+
+function drawStatic(intensity){
+  // Flicker effect
+  const flicker = 0.65 + Math.random()*0.7;
+  const a = intensity * flicker;
+
+  ctx.save();
+  ctx.globalAlpha = a;
+
+  // Grain
+  const dots = 1000;
+  for(let i=0;i<dots;i++){
+    const v = Math.random();
+    ctx.fillStyle = `rgba(255,255,255,${v})`;
+    ctx.fillRect(Math.random()*W, Math.random()*H, 1, 1);
+  }
+
+  // Scanlines
+  ctx.globalAlpha = a * 0.35;
+  ctx.fillStyle = "rgba(255,255,255,0.12)";
+  for(let y=0;y<H;y+=4){
+    if (Math.random() < 0.45) ctx.fillRect(0,y,W,1);
+  }
+
+  // Occasional “glitch” bar
+  if (Math.random() < 0.18){
+    ctx.globalAlpha = a * 0.55;
+    const gy = Math.random()*H;
+    ctx.fillStyle = "rgba(255,255,255,0.18)";
+    ctx.fillRect(0, gy, W, 2 + Math.random()*6);
+  }
+
+  ctx.restore();
+}
+
+function draw(){
+  const theme = nights[nightIndex];
+
+  // background
+  const bgTop = theme.bg0;
+  const grad = ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0, bgTop);
+  grad.addColorStop(1, "#020005");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,W,H);
+
+  // grid (more visible)
+  ctx.strokeStyle = "rgba(255,255,255,.12)";
+  ctx.lineWidth = 1;
+  for(let i=0;i<=grid;i++){
+    ctx.beginPath(); ctx.moveTo(i*cell+0.5,0); ctx.lineTo(i*cell+0.5,H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,i*cell+0.5); ctx.lineTo(W,i*cell+0.5); ctx.stroke();
+  }
+
+  // border glow
+  ctx.save();
+  ctx.strokeStyle = theme.glow;
+  ctx.globalAlpha = 0.22;
+  ctx.lineWidth = 6;
+  ctx.strokeRect(3,3,W-6,H-6);
+  ctx.restore();
+
+  // food token (pizza-ish)
+  const cx = food.x*cell + cell/2;
+  const cy = food.y*cell + cell/2;
+  const r = cell*0.28;
+
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.shadowColor = "rgba(255,200,120,0.85)";
+  ctx.shadowBlur = 14;
+  ctx.fillStyle="#d89a54"; ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fill();
+  ctx.shadowBlur=0;
+  ctx.fillStyle="#f6d76b"; ctx.beginPath(); ctx.arc(0,0,r*0.82,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle="#b82323";
+  ctx.beginPath();
+  ctx.arc(-r*0.25,-r*0.15,r*0.22,0,Math.PI*2);
+  ctx.arc( r*0.28, r*0.05,r*0.22,0,Math.PI*2);
+  ctx.arc(-r*0.05, r*0.30,r*0.22,0,Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+
+  // snake
+  for(let i=snake.length-1;i>=0;i--){
+    const s=snake[i];
+    const x=s.x*cell, y=s.y*cell;
+
+    ctx.save();
+    ctx.shadowColor = theme.glow;
+    ctx.shadowBlur = (i===0) ? 18 : 10;
+    ctx.fillStyle = (i===0) ? theme.head : theme.body;
+    ctx.fillRect(x+3, y+3, cell-6, cell-6);
+
+    // head eyes
+    if (i===0){
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = "#82fffd";
+      ctx.beginPath();
+      ctx.arc(x + cell*0.35, y + cell*0.52, Math.max(2, cell*0.07), 0, Math.PI*2);
+      ctx.arc(x + cell*0.65, y + cell*0.52, Math.max(2, cell*0.07), 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    ctx.restore();
+  }
+
+  // Static overlay (stronger on Springtrap night)
+  const intensity = (nightIndex===5) ? 0.22 : 0.07;
+  drawStatic(intensity);
+}
+
+function step(){
+  dir = nextDir;
+  const h = snake[0];
+  const n = {x:h.x+dir.x, y:h.y+dir.y};
+
+  // die on wall/self -> restart Night 1 (you can change to "game over" if you want)
+  if (n.x<0||n.y<0||n.x>=grid||n.y>=grid){ startGame(); return; }
+  if (snake.some(s => s.x===n.x && s.y===n.y)){ startGame(); return; }
+
+  snake.unshift(n);
+  if (n.x===food.x && n.y===food.y) placeFood();
+  else snake.pop();
+}
+
+let last=0;
+function loop(ts){
+  if(!last) last=ts;
+  const dt = Math.min(0.05, (ts-last)/1000);
+  last=ts;
+
+  if(state==="playing"){
+    nightTimer += dt;
+    if(nightTimer >= NIGHT_SECONDS){
+      nightTimer = NIGHT_SECONDS;
+      completeNight();
+    } else {
+      tickAccum += dt;
+      const tickLen = 1/tps;
+      while(tickAccum >= tickLen){
+        tickAccum -= tickLen;
+        step();
+        if (state!=="playing") break;
+      }
+    }
+  }
+
+  nightPill.textContent = (nightIndex===5 ? "Night 6" : `Night ${nightIndex+1}`) + " • " + nights[nightIndex].name;
+  timePill.textContent = timeLabel();
+  speedPill.textContent = (tps/BASE_TPS).toFixed(1) + "x";
+
+  draw();
+  requestAnimationFrame(loop);
+}
+
+function setDir(dx,dy){
+  // prevent immediate reverse
+  if (dx === -dir.x && dy === -dir.y) return;
+  nextDir = {x:dx,y:dy};
+}
+
+window.addEventListener("keydown", (e) => {
+  const k = e.key;
+  if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Enter","w","a","s","d","W","A","S","D"].includes(k)){
+    e.preventDefault();
+  }
+
+  if (k==="Enter"){ confirmOverlay(); return; }
+
+  if (state!=="playing") return;
+
+  if (k==="ArrowUp"||k==="w"||k==="W") setDir(0,-1);
+  if (k==="ArrowDown"||k==="s"||k==="S") setDir(0, 1);
+  if (k==="ArrowLeft"||k==="a"||k==="A") setDir(-1,0);
+  if (k==="ArrowRight"||k==="d"||k==="D") setDir( 1,0);
+});
+
+mainBtn.addEventListener("click", confirmOverlay);
+
+// Intro screen
+showOverlay(
+  "Night Snake",
+  "Survive 12:00 AM to 6:00 AM.\nBeat Night 5 to unlock Springtrap + heavy static.",
+  "Start"
+);
+
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

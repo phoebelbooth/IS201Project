@@ -1,0 +1,100 @@
+body{
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  background-color: rgb(255, 251, 240);
+  color: #1f1a16;
+  margin: 0;
+  line-height: 1.6;
+}
+
+
+body > *{
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Top nav list */
+ul{
+  list-style: none;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+
+.nav-item a{
+  text-decoration: none;
+  color: #3a2414;
+  font-weight: 700;
+}
+
+.nav-item a:hover{
+  color: rgb(233, 163, 76);
+}
+
+/* Headings */
+h1{
+  text-align: center;
+ 
+}
+
+h2{
+  color: rgb(233, 163, 76);
+  text-align: center;
+
+}
+
+h4{
+  text-align: center;
+  margin: 18px 0 6px;
+}
+
+/* Text */
+p{
+  text-align: center;
+  margin: 10px auto;
+  max-width: 70ch;
+}
+
+.costomFont{
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+/* Video + caption */
+figure.video{
+  margin: 18px auto;
+  width: min(780px, 100%);
+  text-align: center;
+}
+
+figure.video iframe{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  display: block;
+}
+
+figcaption{
+  margin-top: 8px;
+  color: rgba(0,0,0,0.7);
+}
+
+ol{
+  max-width: 650px;
+  margin: 12px auto 24px;
+}
+
+ol ul{
+  margin-top: 6px;
+}
+
+.imgsvt{
+  width: 60%;
+  max-width: 400px;
+  display: block;
+  margin: 16px auto;
+  border-radius: 12px;
+}
